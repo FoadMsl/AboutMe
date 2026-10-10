@@ -36,6 +36,7 @@
   --cat-teaching:     #32ADE6;
   --cat-awards:       #FFCC00;
   --cat-certs:        #FF2D92;
+  --cat-languages:    #AF52DE;
 }
 html[data-theme="light"]{
   color-scheme: light;
@@ -188,6 +189,7 @@ header.card{
 .avatar-placeholder{ font-family:var(--mono); font-size:10px; text-align:center; color:var(--text-faint); line-height:1.4; padding:6px; }
 .header-text{}
 .h-title{ font-family:var(--display); font-weight:700; font-size:32px; margin:0 0 12px; letter-spacing:-.02em; color:var(--text); }
+.h-tagline{ font-family:var(--sans); font-size:14px; font-weight:600; color:var(--signal); margin:-4px 0 14px; letter-spacing:0; }
 .h-sub{ font-family:var(--sans); font-size:14.5px; color:var(--text-dim); margin:0 0 18px; padding-left:18px; }
 .h-sub li{ margin-bottom:8px; text-align:justify; text-justify:inter-word; }
 .h-sub li:last-child{ margin-bottom:0; }
@@ -380,6 +382,7 @@ header.card{
 }
 .cv-section-dot{ width:10px; height:10px; border-radius:50%; background:var(--c); flex-shrink:0; box-shadow:0 0 0 4px color-mix(in srgb, var(--c) 16%, transparent); }
 .cv-section-title{ font-family:var(--display); font-weight:700; font-size:16.5px; color:var(--text); letter-spacing:-.01em; }
+.cv-section-meta{ margin-left:auto; font-family:var(--sans); font-size:11px; font-weight:600; color:var(--text-faint); text-align:right; }
 .cv-section-body{ display:flex; flex-direction:column; gap:10px; }
 .cv-item{
   background: var(--panel);
@@ -459,22 +462,24 @@ footer{ text-align:center; font-family:var(--sans); font-size:11px; color:var(--
         </div>
         <div class="header-text">
           <div class="h-title">Foad Moslem</div>
+          <div class="h-tagline">M.Sc. in Aerospace Engineering (Aerodynamics) · Prospective PhD Applicant</div>
           <ul class="h-sub">
-            <li>Interdisciplinary researcher with a background in experimental aeroacoustics, bio-inspired propeller design, and aerodynamic noise reduction for unmanned and urban air systems.</li>
-            <li>Published author with publications spanning bio-inspired propeller planform testing, deep reinforcement learning for flow control, and insect-flight aerodynamics, with hands-on experience in wind tunnel and anechoic chamber testing, microphone array measurement, and acoustic signal processing.</li>
-            <li>Interested in investigating rotor and propeller tonal noise, particularly blade geometry effects and installation-driven interaction noise, to advance experimentally grounded low-noise rotor design for the next generation of aerial transportation.</li>
+            <li>Interdisciplinary researcher in experimental aeroacoustics and bio-inspired propeller design, focused on aerodynamic noise reduction for unmanned and urban air systems.</li>
+            <li>Published author (40 citations, h-index: 3, i10-index: 3) on propeller design, deep reinforcement learning for flow control, and insect-flight aerodynamics.</li>
+            <li>Interested in rotor tonal noise, blade-geometry effects, and installation-driven interaction noise toward experimentally low-noise rotor design for next-generation aerial transportation.</li>
           </ul>
           <div class="h-interests">
-            <span class="h-interest-pill">Aeroacoustics</span>
+            <span class="h-interest-pill">Experimental Aeroacoustics</span>
             <span class="h-interest-pill">Aerodynamics</span>
-            <span class="h-interest-pill">Propeller &amp; Rotor Noise</span>
-            <span class="h-interest-pill">Bio-Inspired Design</span>
-            <span class="h-interest-pill">UAM</span>
+            <span class="h-interest-pill">Propeller</span>
+            <span class="h-interest-pill">Bio-inspired Design</span>
+            <span class="h-interest-pill">Urban Air Mobility</span>
+            <span class="h-interest-pill">Deep Learning</span>
           </div>
           <div class="h-skills">
             <div class="h-skills-title">SKILLS</div>
-            <div class="h-skills-row"><b>Computational:</b>Python · Deep &amp; Reinforcement Learning · ANSYS Fluent &amp; ICEM · SIMULIA XFlow · SolidWorks</div>
             <div class="h-skills-row"><b>Experimental:</b>Wind Tunnel &amp; Acoustic Testing · Microphone Array Calibration · LabVIEW · 3D Printing</div>
+            <div class="h-skills-row"><b>Computational:</b>Python · Deep &amp; Reinforcement Learning · SIMULIA XFlow · SolidWorks</div>
             <div class="h-skills-row"><b>Interpersonal:</b>Creative · Collaborative research · Technical leadership · Cross-disciplinary communication</div>
           </div>
         </div>
@@ -547,14 +552,10 @@ footer{ text-align:center; font-family:var(--sans); font-size:11px; color:var(--
 const SECTIONS = [
   { key:'status', label:'Current Status', color:'var(--cat-status)', items:[
     { kind:'rope', when:'Jun 2025 – Present', title:'Independent Researcher', org:'Self-directed',
-      bullets:['Advanced study in deep learning and sound combination; study in deep-tech innovation and entrepreneurship; TOEFL preparation; and preparing for international PhD applications.'],
-      skills:['Cross-disciplinary communication','Creativity','English Language Learning','Entrepreneurship','Lab to Market procedure'] },
+      bullets:['Exploring the commercialization of academic research and innovations, with a focus on translating aerodynamic and aeroacoustics concepts into viable business ventures.'],
+      skills:['Entrepreneurship','Lab to Market procedure','Cross-disciplinary communication','Creativity'] },
   ]},
   { key:'education', label:'Education', color:'var(--cat-education)', items:[
-    { kind:'rope', when:'Sep 2022 – Jun 2024', title:'Ph.D. Student (Withdrawn) · Aerodynamics', org:'Amirkabir University of Technology',
-      bullets:['Completed two years of doctoral coursework; withdrew to seek international PhD opportunities aligned with my research interests in rotor and propeller aeroacoustics.',
-        'GPA: 4.0 / 4.0 · Full Tuition Waiver · Top 1% Nationwide PhD Entrance Exam'],
-      skills:['Python','Machine Learning','XFoil','Technical leadership','Cross-disciplinary communication'] },
     { kind:'rope', when:'Sep 2017 – Jun 2020', title:'M.Sc. Aerospace Engineering (Aerodynamics)', org:'University of Tehran',
       bullets:['Thesis: Investigation of Aeroacoustics Characteristics of Small Drone Propellers',
         'GPA: 4.0 / 4.0 · Full Tuition Waiver · Top 1% Nationwide M.Sc. Entrance Exam'],
@@ -567,7 +568,7 @@ const SECTIONS = [
   { key:'research', label:'Research Experience', color:'var(--cat-research)', items:[
     { kind:'rope', when:'Apr 2024 – May 2025', title:'Research Assistant (Remote)', org:"City St George's, University of London",
       bullets:['Developed a structured deep reinforcement learning (DRL) framework for vortex-induced vibration (VIV) suppression, synthesizing 50+ sources into a unified control-design knowledge base.',
-        'First-authored a state-of-the-art review published in Ocean Engineering (2025), cited 6 times within weeks of publication.'],
+        'First-authored a state-of-the-art review published in Ocean Engineering (2025)[1].'],
       skills:['Python','Deep & Reinforcement Learning','Collaborative research','Cross-disciplinary communication'] },
     { kind:'rope', when:'Sep 2022 – Jun 2024', title:'Graduate Researcher', org:'Amirkabir University of Technology',
       bullets:['Designed and validated ML-assisted aerodynamic optimization pipelines for low-noise airfoil and propeller applications using genetic algorithms, XFoil, CFD datasets, and neural-network surrogate models.',
@@ -579,7 +580,7 @@ const SECTIONS = [
         'Developed early-stage product testing roadmap; identified key barriers to commercialization in the Iranian civil UAV market, informing a pivot toward academic publication.'],
       skills:['Entrepreneurship','Innovation','Technical leadership','Creativity'] },
     { kind:'rope', when:'Sep 2018 – Sep 2020', title:'Wind Tunnel Technician', org:'University of Tehran',
-      bullets:['Conducted 100+ aerodynamics test runs; rewrote LabVIEW-based data acquisition and signal-processing systems, improving calibration quality and reducing inter-run variability.',
+      bullets:['Conducted multiple aerodynamics test runs; rewrote LabVIEW-based data acquisition and signal-processing systems, improving calibration quality and reducing inter-run variability.',
         'Processed experimental datasets for validation of RANS/Fluent numerical models.'],
       skills:['Wind Tunnel & Acoustic Testing','Wind Tunnel and Microphone Array Calibration','LabVIEW','Data acquisition and processing'] },
     { kind:'rope', when:'Sep 2018 – Sep 2020', title:'Research Assistant', org:'University of Tehran',
@@ -587,20 +588,24 @@ const SECTIONS = [
         'Contributed to interdisciplinary Urban Air Mobility studies focused on safety assessment, environmental noise impact, and regulatory constraints.'],
       skills:['Collaborative research','Technical leadership','Cross-disciplinary communication'] },
   ]},
-  { key:'publication', label:'Publications', color:'var(--cat-publication)', items:[
+  { key:'publication', label:'Publications', color:'var(--cat-publication)', meta:'Citations: 40 · h-index: 3 · i10-index: 3', items:[
     { kind:'flag', when:'May 30, 2025', title:'Deep Reinforcement Learning for Active Flow Control in Bluff Bodies: A State-of-the-Art Review',
       org:'F. Moslem, M. Jebelli, M. Masdari*, R. Askari, A. Ebrahimi · Ocean Engineering',
       link:{ text:'DOI: 10.1016/j.oceaneng.2025.120989', url:'https://doi.org/10.1016/j.oceaneng.2025.120989' },
+      cited:14,
       parent:'Research Assistant (Remote)' },
     { kind:'flag', when:'Apr 14, 2023', title:"A Review on Insects' Flight Aerodynamics, Noise Sources, and Flow Control Mechanisms",
       org:'F. Moslem*, Z. Babaie, M. Masdari, K. Fedir · Proc. IMechE, Part G',
-      link:{ text:'DOI: 10.1177/09544100231169345', url:'https://doi.org/10.1177/09544100231169345' } },
+      link:{ text:'DOI: 10.1177/09544100231169345', url:'https://doi.org/10.1177/09544100231169345' },
+      cited:11 },
     { kind:'flag', when:'Aug 28, 2022', title:'Numerical Investigation on VIV Energy Harvesting Enhancement with Adding Eccentricity to A Circular Cylinder',
       org:'Z. Babaie, F. Moslem, M. Masdari*, M. Tahani · Int. J. Thermofluid Science and Technology',
-      link:{ text:'DOI: 10.36963/IJTST.2022090502', url:'https://www.doi.org/10.36963/IJTST.2022090502' } },
+      link:{ text:'DOI: 10.36963/IJTST.2022090502', url:'https://www.doi.org/10.36963/IJTST.2022090502' },
+      cited:3 },
     { kind:'flag', when:'Aug 2, 2022', title:'Experimental Investigation into The Aerodynamic and Aeroacoustic Performance of Bioinspired Small-Scale Propeller Planforms',
       org:'F. Moslem, M. Masdari*, K. Fedir, B. Moslem · Proc. IMechE, Part G',
-      link:{ text:'DOI: 10.1177/09544100221091322', url:'https://doi.org/10.1177/09544100221091322' } },
+      link:{ text:'DOI: 10.1177/09544100221091322', url:'https://doi.org/10.1177/09544100221091322' },
+      cited:12 },
     { kind:'flag', when:'Jan 6, 2022', title:'Experimental Study on Acoustic and Aerodynamic Improvement of The Hemiptera-Inspired Propeller Planform',
       org:'F. Moslem, M. Masdari*, K. Fedir, B. Moslem · Int. J. Thermofluid Science and Technology',
       link:{ text:'DOI: 10.36963/IJTST.2022090203', url:'https://www.doi.org/10.36963/IJTST.2022090203' } },
@@ -627,8 +632,6 @@ const SECTIONS = [
       bullets:['Directed crisis-response coordination and operational support activities for large-scale student volunteer programs (250+ participants).'] },
   ]},
   { key:'awards', label:'Awards & Honors', color:'var(--cat-awards)', items:[
-    { kind:'flag', when:'2022', title:'Full Tuition Waiver for Graduate Studies', org:'Amirkabir University of Technology' },
-    { kind:'flag', when:'2022', title:'Top 1% Nationwide Rank', org:'Nationwide PhD Entrance Exam' },
     { kind:'flag', when:'2020', title:'Research Grant for Thesis Excellence', org:'Science & Technology Park · University of Tehran' },
     { kind:'flag', when:'2019', title:'Accepted at the Flourishing Festival', org:'Science & Technology Park · University of Tehran' },
     { kind:'flag', when:'2018', title:'Recognized for Innovation', org:'Aviation Ideation Festival · University of Tehran' },
@@ -639,11 +642,18 @@ const SECTIONS = [
     { kind:'flag', when:'Jun 2025', title:'Technology Entrepreneurship: Lab to Market', org:'HarvardX' },
     { kind:'flag', when:'Apr 2024', title:'Certified Civil Multirotor Drone Pilot', org:'CAA.IRI' },
   ]},
+  { key:'languages', label:'Language Skills', color:'var(--cat-languages)', undated:true, items:[
+    { kind:'flag', when:'Native', title:'Persian', org:'' },
+    { kind:'flag', when:'90 / 120', title:'English', org:'TOEFL iBT (Best Score)',
+      bullets:['Reading 24 · Listening 24 · Speaking 22 · Writing 20'] },
+    { kind:'flag', when:'88 / 120', title:'English', org:'TOEFL iBT (Last Score)',
+      bullets:['Reading 24 · Listening 24 · Speaking 21 · Writing 19'] },
+  ]},
 ];
 
 const MAIN_TITLES = new Set([
   'Independent Researcher',
-  'Ph.D. Student (Withdrawn) · Aerodynamics',
+  'Graduate Researcher',
   'M.Sc. Aerospace Engineering (Aerodynamics)',
   'B.Sc. Aerospace Engineering',
   'Research Assistant (Remote)',
@@ -686,8 +696,12 @@ function render(){
 
   // flatten every item with its section color/cat + a chronological sort key
   const flat = [];
+  const undatedFlat = [];
   SECTIONS.forEach(sec => {
-    sec.items.forEach(item => flat.push({ ...item, cat: sec.key, color: sec.color, label: sec.label, sortKey: sortKeyFor(item.when) }));
+    sec.items.forEach(item => {
+      const rec = { ...item, cat: sec.key, color: sec.color, label: sec.label, sortKey: sec.undated ? 0 : sortKeyFor(item.when) };
+      (sec.undated ? undatedFlat : flat).push(rec);
+    });
   });
 
   // split into the 6 main milestones vs. everything else
@@ -774,7 +788,7 @@ function render(){
     if(hasBody){
       bodyHtml += '<div class="stop-body">';
       if(item.bullets){ bodyHtml += '<ul>' + item.bullets.map(b => `<li>${b}</li>`).join('') + '</ul>'; }
-      if(item.link){ bodyHtml += `<div><a href="${item.link.url}" target="_blank" rel="noopener">${item.link.text}</a></div>`; }
+      if(item.link){ bodyHtml += `<div><a href="${item.link.url}" target="_blank" rel="noopener">${item.link.text}</a>${item.cited ? ` · Cited: ${item.cited}` : ''}</div>`; }
       if(item.skills){ bodyHtml += `<div class="stop-skills"><div class="stop-skills-label">Related Skills</div>${item.skills.map(s=>`<span class="stop-tag">${s}</span>`).join('')}</div>`; }
       bodyHtml += '</div>';
     }
@@ -848,12 +862,27 @@ function render(){
 
       feed.appendChild(group);
     });
+
+    // undated sections (e.g. language skills) sit after the chronology
+    SECTIONS.filter(sec => sec.undated).forEach(sec => {
+      const items = undatedFlat.filter(i => i.cat === sec.key);
+      const group = document.createElement('div');
+      group.className = 'group' + (visible(sec.key) ? '' : ' hidden');
+      if(!visible(sec.key)) group.style.display = 'none';
+      group.style.setProperty('--c', sec.color);
+      const subList = document.createElement('div');
+      subList.className = 'sub-list';
+      subList.style.marginLeft = '0';
+      items.forEach(it => subList.appendChild(renderSubRow(it)));
+      group.appendChild(subList);
+      feed.appendChild(group);
+    });
   }
 
   function renderCvItemHtml(item){
     let bodyHtml = '';
     if(item.bullets){ bodyHtml += '<ul>' + item.bullets.map(b => `<li>${b}</li>`).join('') + '</ul>'; }
-    if(item.link){ bodyHtml += `<div><a href="${item.link.url}" target="_blank" rel="noopener">${item.link.text}</a></div>`; }
+    if(item.link){ bodyHtml += `<div><a href="${item.link.url}" target="_blank" rel="noopener">${item.link.text}</a>${item.cited ? ` · Cited: ${item.cited}` : ''}</div>`; }
     if(item.skills){ bodyHtml += `<div class="stop-skills"><div class="stop-skills-label">Related Skills</div>${item.skills.map(s=>`<span class="stop-tag">${s}</span>`).join('')}</div>`; }
     return `
       <div class="cv-item">
@@ -874,12 +903,13 @@ function render(){
       wrap.className = 'cv-section' + (secVisible ? '' : ' hidden');
       wrap.style.setProperty('--c', sec.color);
 
-      const items = [...sec.items].sort((a,b) => sortKeyFor(b.when) - sortKeyFor(a.when));
+      const items = sec.undated ? [...sec.items] : [...sec.items].sort((a,b) => sortKeyFor(b.when) - sortKeyFor(a.when));
 
       wrap.innerHTML = `
         <div class="cv-section-head">
           <span class="cv-section-dot"></span>
           <span class="cv-section-title">${sec.label}</span>
+          ${sec.meta ? `<span class="cv-section-meta">${sec.meta}</span>` : ''}
         </div>
         <div class="cv-section-body">
           ${items.map(renderCvItemHtml).join('')}
