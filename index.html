@@ -223,192 +223,108 @@ header.card{
 }
 .icon-link img{ width:62%; height:62%; object-fit:contain; display:block; flex-shrink:0; border-radius:50%; }
 
-/* stat strip */
-.stats{ display:grid; grid-template-columns:repeat(5,1fr); gap:var(--gap); margin-bottom:var(--gap); }
-.stat{
-  background: var(--panel);
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur));
-  backdrop-filter: saturate(180%) blur(var(--blur));
-  border:1px solid var(--line); border-radius:var(--radius);
-  box-shadow:var(--shadow-sm); padding:12px 10px; text-align:center;
-}
-.stat-val{ font-family:var(--display); font-weight:700; font-size:19px; color:var(--signal); letter-spacing:-.01em; }
-.stat-label{ font-family:var(--sans); font-size:9.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--text-faint); margin-top:3px; font-weight:600; }
-
-/* ===== 3.5 VIEW TOGGLE — iOS-style segmented control ===== */
-.view-toggle{
-  display:flex; gap:2px; margin-bottom:14px; padding:3px; border-radius:var(--radius-pill);
-  background: var(--panel-2);
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur));
-  backdrop-filter: saturate(180%) blur(var(--blur));
-  border:1px solid var(--line);
-  width:fit-content;
-}
+/* ===== 4. CONTROLS ===== */
+.controls{ display:flex; flex-direction:column; gap:14px; margin:6px 0 30px; }
+.view-tabs{ display:flex; gap:24px; border-bottom:1px solid var(--line); }
 .view-btn{
-  font-family:var(--sans); font-size:12.5px; font-weight:600; letter-spacing:0;
-  padding:7px 16px; border-radius:var(--radius-pill); border:none;
-  background:transparent; color:var(--text-dim); cursor:pointer; user-select:none;
-  transition:background-color .18s ease, color .18s ease, box-shadow .18s ease;
+  font:600 14px var(--sans); padding:8px 0 10px; margin-bottom:-1px; background:none; border:0;
+  border-bottom:2px solid transparent; color:var(--text-faint); cursor:pointer;
+  transition:color .15s ease, border-color .15s ease;
 }
-.view-btn.active{ background:var(--panel-solid); color:var(--text); box-shadow:var(--shadow-sm); }
-.view-divider{ display:none; }
-
-/* ===== 4. FILTER CHIPS / LEGEND (glassy pills) ===== */
-.filters{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:24px; }
+.view-btn:hover{ color:var(--text-dim); }
+.view-btn.active{ color:var(--text); border-bottom-color:var(--signal); }
+.filters{ display:flex; flex-wrap:wrap; gap:8px; }
 .chip{
-  font-family:var(--sans); font-size:12px; font-weight:600; letter-spacing:0;
-  padding:7px 14px; border-radius:var(--radius-pill); border:1px solid var(--line);
-  background: var(--panel-2);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  backdrop-filter: saturate(180%) blur(14px);
-  color:var(--text-dim); cursor:pointer; user-select:none;
-  display:flex; align-items:center; gap:7px; vertical-align:middle;
-  transition:transform .12s ease, background-color .15s ease, color .15s ease, border-color .15s ease;
+  display:inline-flex; align-items:center; gap:7px; font:500 12.5px var(--sans);
+  padding:6px 12px; border-radius:var(--radius-pill); border:1px solid var(--line);
+  background:transparent; color:var(--text-dim); cursor:pointer;
+  transition:background-color .15s ease, border-color .15s ease, color .15s ease;
 }
-.chip .dot{ width:8px; height:8px; border-radius:50%; background:var(--c); box-shadow:0 0 0 3px color-mix(in srgb, var(--c) 20%, transparent); }
-.chip.active{ background:var(--c); color:#fff; border-color:var(--c); }
-.chip.active .dot{ background:#fff; box-shadow:none; }
-.chip:hover{ transform:translateY(-1px); }
-
-/* ===== 5. TIMELINE FEED (minimal dashboard) ===== */
-.feed{ position:relative; padding-left:22px; }
-.feed::before{
-  content:''; position:absolute; left:5px; top:4px; bottom:4px; width:2px;
-  background:var(--line-soft); border-radius:2px;
+.chip:hover{ border-color:var(--text-faint); }
+.chip .dot{ width:7px; height:7px; border-radius:50%; background:var(--c); flex-shrink:0; }
+.chip .n{ color:var(--text-faint); font-variant-numeric:tabular-nums; }
+.chip[aria-pressed="true"]{
+  background:color-mix(in srgb, var(--c) 15%, var(--panel-solid)); border-color:var(--c); color:var(--text);
 }
 
-/* --- main chapters (each a standalone box) --- */
-.group{ margin-bottom:18px; }
-.chapter{ position:relative; margin-bottom:8px; }
-.chapter.hidden{ display:none; }
-.chapter-dot{
-  position:absolute; left:-22px; top:15px; width:13px; height:13px; border-radius:50%;
-  background:var(--c); box-shadow:0 0 0 4px color-mix(in srgb, var(--c) 18%, transparent), var(--shadow-sm); z-index:2;
+/* ===== 5. FEED: one surface per year, rows divided by hairlines ===== */
+.feed{ --date-w:150px; --pad:18px; display:flex; flex-direction:column; gap:30px; }
+.year-group{ display:grid; grid-template-columns:92px minmax(0,1fr); gap:0 20px; align-items:start; }
+.year-label{
+  position:sticky; top:18px; margin:0; font-family:var(--display); font-weight:300; font-size:42px;
+  line-height:1; letter-spacing:-.04em; color:var(--text-faint); font-variant-numeric:tabular-nums;
 }
-.chapter-card{
-  background: var(--panel);
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur));
-  backdrop-filter: saturate(180%) blur(var(--blur));
-  border:1px solid var(--line);
-  border-radius:var(--radius); padding:14px 18px; cursor:pointer;
-  box-shadow:var(--shadow-sm);
-  transition:box-shadow .18s ease, transform .12s ease;
+.year-label.is-text{ font-size:14px; font-weight:600; letter-spacing:0; line-height:1.3; padding-top:16px; color:var(--text-dim); }
+.panel{
+  background:var(--panel); -webkit-backdrop-filter:saturate(180%) blur(var(--blur)); backdrop-filter:saturate(180%) blur(var(--blur));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-sm); overflow:hidden;
 }
-.section-tag{
-  font-family:var(--sans); font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
-  color:var(--c); margin-bottom:7px;
+.row + .row{ border-top:1px solid var(--line-soft); }
+.row-head{
+  display:grid; grid-template-columns:var(--date-w) minmax(0,1fr) 16px; gap:4px 18px; align-items:start;
+  width:100%; padding:14px var(--pad); background:none; border:0; text-align:left; color:inherit; font:inherit;
 }
-.chapter-card:hover{ transform:translateY(-1px); box-shadow:var(--shadow); }
-.chapter-top{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
-.chapter-when{
-  font-family:var(--sans); font-size:11.5px; color:var(--c); letter-spacing:0; font-weight:700;
-  display:flex; align-items:center; gap:5px; white-space:nowrap; flex-shrink:0;
+button.row-head{ cursor:pointer; transition:background-color .15s ease; }
+button.row-head:hover{ background:color-mix(in srgb, var(--text) 4%, transparent); }
+.row-when, .row-main{ display:block; min-width:0; }
+.row-date{ display:block; font-size:12.5px; font-weight:600; color:var(--text); line-height:1.4; }
+.row-cat{ display:flex; align-items:center; gap:6px; margin-top:2px; font-size:11.5px; font-weight:500; color:var(--text-faint); }
+.row-cat::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--c); flex-shrink:0; }
+.row-title{ display:block; font-family:var(--display); font-weight:700; font-size:15.5px; line-height:1.35; letter-spacing:-.01em; color:var(--text); }
+.row-org{ display:block; margin-top:2px; font-size:12.5px; color:var(--text-faint); }
+.row-live{
+  display:inline-block; margin-left:8px; padding:1px 8px; border-radius:var(--radius-pill); vertical-align:2px;
+  font:600 11px var(--sans); letter-spacing:0; color:var(--text);
+  background:color-mix(in srgb, var(--cat-publication) 18%, transparent);
 }
-.chapter-when svg{ width:12px; height:12px; flex-shrink:0; }
-.chapter-title{ font-family:var(--display); font-weight:700; font-size:16.5px; color:var(--text); flex:1; min-width:0; letter-spacing:-.01em; }
-.chapter-chevron{ font-family:var(--sans); font-size:13px; color:var(--text-faint); transition:transform .2s ease; flex-shrink:0; }
-.chapter.open .chapter-chevron{ transform:rotate(90deg); }
-.chapter-org{ font-family:var(--sans); font-size:12px; color:var(--text-faint); margin:3px 0 0; }
-.chapter-detail{
-  max-height:0; overflow:hidden; transition:max-height .3s ease;
+.row-chev{ display:flex; justify-self:end; margin-top:5px; color:var(--text-faint); transition:transform .2s ease; }
+.row.open .row-chev{ transform:rotate(90deg); }
+.row-body{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s ease; }
+.row.open .row-body{ grid-template-rows:1fr; }
+.row-body-in{ min-height:0; overflow:hidden; visibility:hidden; transition:visibility 0s .25s; }
+.row.open .row-body-in{ visibility:visible; transition-delay:0s; }
+.row-content{
+  margin:0 var(--pad) 16px calc(var(--pad) + var(--date-w) + 18px); padding-top:12px;
+  border-top:1px dashed var(--line); font-size:13px; line-height:1.6; color:var(--text-dim);
 }
-.chapter.open .chapter-detail{ max-height:1200px; }
-.chapter-own-body{ font-family:var(--sans); font-size:13px; color:var(--text-dim); line-height:1.6; margin-top:11px; padding-top:11px; border-top:1px solid var(--line-soft); }
-.chapter-own-body ul{ margin:0; padding-left:16px; }
-.chapter-own-body li{ margin-bottom:4px; }
-.chapter-skills{ margin-top:9px; }
-.chapter-skills-label{ font-family:var(--sans); font-size:9.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px; font-weight:600; }
-.chapter-tag{
-  display:inline-block; font-family:var(--sans); font-size:10.5px; font-weight:500; margin:0 6px 6px 0;
-  padding:3px 9px; border-radius:var(--radius-pill); background:var(--panel-2); color:var(--text-faint); border:1px solid var(--line-soft);
+.row-content ul{ margin:0; padding-left:18px; }
+.row-content li{ margin-bottom:5px; }
+.row-content a{ color:var(--signal); }
+.row-link{ display:flex; flex-wrap:wrap; gap:4px 14px; align-items:center; margin-top:8px; }
+.row-content a.read-btn{
+  display:inline-flex; align-items:center; gap:6px; padding:5px 14px; border-radius:var(--radius-pill);
+  font:600 12.5px var(--sans); color:#fff; text-decoration:none;
+  background:linear-gradient(135deg, var(--signal), var(--signal-hover));
+  box-shadow:0 2px 8px color-mix(in srgb, var(--signal) 35%, transparent);
+  transition:transform .15s ease, box-shadow .15s ease;
 }
+.row-content a.read-btn:hover{ transform:translateY(-1px); }
+.cited{ font-size:11.5px; color:var(--text-faint); }
+.row-skills-label{ margin-top:12px; font-size:11.5px; font-weight:600; color:var(--text-faint); }
+.tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.tag{ font-size:11px; font-weight:500; padding:3px 10px; border-radius:var(--radius-pill); background:var(--panel-2); border:1px solid var(--line-soft); color:var(--text-dim); }
 
-/* sub-items: separate standalone boxes, indented under their group's main */
-.sub-section-label{
-  display:flex; align-items:baseline; gap:7px; margin:12px 0 7px 22px;
-  font-family:var(--sans); font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-  color:var(--c);
-}
-.sub-section-dot{ width:6px; height:6px; border-radius:50%; background:var(--c); flex-shrink:0; }
-.sub-section-meta{ font-family:var(--sans); font-size:9.5px; font-weight:500; text-transform:none; letter-spacing:0; color:var(--text-faint); }
-.sub-list{ display:flex; flex-direction:column; gap:6px; margin-left:22px; }
-
-/* --- nested sub-items: eye-catching standalone boxes --- */
-.stop{ position:relative; }
-.stop.hidden{ display:none; }
-.stop-card{
-  background: var(--panel);
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur));
-  backdrop-filter: saturate(180%) blur(var(--blur));
-  border:1px solid var(--line);
-  border-radius:var(--radius); padding:12px 15px; cursor:pointer;
-  box-shadow:var(--shadow-sm); transition:transform .14s ease, box-shadow .14s ease;
-}
-.stop-card:hover{ transform:translateY(-1px); box-shadow:var(--shadow); }
-.stop-top{ display:flex; align-items:baseline; gap:9px; flex-wrap:wrap; }
-.stop-when{
-  font-family:var(--sans); font-size:11px; color:var(--c); letter-spacing:0; font-weight:700;
-  display:flex; align-items:center; gap:5px; white-space:nowrap; flex-shrink:0;
-  background:color-mix(in srgb, var(--c) 14%, transparent); padding:3px 10px; border-radius:var(--radius-pill);
-}
-.stop-when svg{ width:11px; height:11px; flex-shrink:0; }
-.stop-title{ font-family:var(--sans); font-weight:700; font-size:13.5px; color:var(--text); flex:1; min-width:120px; }
-.stop-chevron{ font-family:var(--sans); font-size:12px; color:var(--text-faint); transition:transform .2s ease; flex-shrink:0; }
-.stop.open .stop-chevron{ transform:rotate(90deg); }
-.stop-org{ font-family:var(--sans); font-size:11.5px; color:var(--text-faint); margin:3px 0 0; }
-.stop-body{
-  max-height:0; overflow:hidden; transition:max-height .25s ease;
-  font-family:var(--sans); font-size:12.5px; color:var(--text-dim); line-height:1.6;
-}
-.stop.open .stop-body{ max-height:1200px; margin-top:10px; padding-top:10px; border-top:1px solid var(--line-soft); }
-.stop-body a{ color:var(--signal); }
-.stop-body ul{ margin:0; padding-left:16px; }
-.stop-body li{ margin-bottom:4px; }
-.stop-skills{ margin-top:9px; padding-top:9px; border-top:1px solid var(--line-soft); }
-.stop-skills-label{ font-family:var(--sans); font-size:9px; letter-spacing:.07em; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px; font-weight:600; }
-.stop-tag{
-  display:inline-block; font-family:var(--sans); font-size:10px; font-weight:500; margin:0 6px 6px 0;
-  padding:3px 9px; border-radius:var(--radius-pill); background:var(--panel-2); color:var(--text-faint); border:1px solid var(--line-soft);
-}
-.no-detail .stop-card{ cursor:default; }
-.no-detail .stop-card:hover{ transform:none; box-shadow:var(--shadow-sm); }
-
-/* ===== 5b. SECTION-BASED (CV) VIEW ===== */
-.cv-section{ margin-bottom:22px; }
-.cv-section.hidden{ display:none; }
-.cv-section-head{
-  display:flex; align-items:center; gap:9px; margin-bottom:12px;
-  padding-bottom:8px; border-bottom:1px solid var(--line);
-}
-.cv-section-dot{ width:10px; height:10px; border-radius:50%; background:var(--c); flex-shrink:0; box-shadow:0 0 0 4px color-mix(in srgb, var(--c) 16%, transparent); }
-.cv-section-title{ font-family:var(--display); font-weight:700; font-size:16.5px; color:var(--text); letter-spacing:-.01em; }
-.cv-section-meta{ margin-left:auto; font-family:var(--sans); font-size:11px; font-weight:600; color:var(--text-faint); text-align:right; }
-.cv-section-body{ display:flex; flex-direction:column; gap:10px; }
-.cv-item{
-  background: var(--panel);
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur));
-  backdrop-filter: saturate(180%) blur(var(--blur));
-  border:1px solid var(--line);
-  border-radius:var(--radius); padding:13px 16px;
-  box-shadow:var(--shadow-sm);
-}
-.cv-item-top{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; }
-.cv-item-title{ font-family:var(--sans); font-weight:700; font-size:13.5px; color:var(--text); }
-.cv-item-when{ font-family:var(--sans); font-size:11px; color:var(--c); font-weight:700; white-space:nowrap; }
-.cv-item-org{ font-family:var(--sans); font-size:11.5px; color:var(--text-faint); margin:3px 0 0; }
-.cv-item-body{ margin-top:10px; padding-top:10px; border-top:1px solid var(--line-soft); font-family:var(--sans); font-size:13px; color:var(--text-dim); line-height:1.6; }
-.cv-item-body ul{ margin:0; padding-left:16px; }
-.cv-item-body li{ margin-bottom:4px; }
-.cv-item-body a{ color:var(--signal); }
-.no-detail .stop-chevron{ display:none; }
-
-
-footer{ text-align:center; font-family:var(--sans); font-size:11px; color:var(--text-faint); margin-top:34px; }
+/* sections view */
+.section-head{ display:flex; align-items:center; gap:10px; margin:0 0 10px 2px; }
+.section-dot{ width:10px; height:10px; border-radius:50%; background:var(--c); flex-shrink:0; }
+.section-title{ margin:0; font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-.01em; }
+.section-meta{ margin-left:auto; font-size:12px; font-weight:500; color:var(--text-faint); text-align:right; }
+.by-section .row-cat{ display:none; }
 
 @media (max-width:640px){
   .h-title{ font-size:25px; }
   .avatar{ width:96px; height:96px; }
   .avatar-ring{ margin-top:-48px; }
+  .feed{ --pad:14px; }
+  .year-group{ grid-template-columns:1fr; gap:10px; }
+  .year-label{ position:static; font-size:30px; }
+  .year-label.is-text{ padding-top:0; }
+  .row-head{ grid-template-columns:minmax(0,1fr) 16px; }
+  .row-when{ grid-column:1 / -1; display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 12px; }
+  .row-cat{ margin-top:0; }
+  .row-content{ margin-left:var(--pad); }
+  .filters{ flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin:0 -18px; padding:2px 18px 6px; }
+  .chip{ flex-shrink:0; }
 }
 @media (prefers-reduced-motion:reduce){
   *{ transition-duration:.001ms !important; animation-duration:.001ms !important; }
@@ -520,18 +436,13 @@ footer{ text-align:center; font-family:var(--sans); font-size:11px; color:var(--
     </div>
   </header>
 
-  <div class="view-divider"></div>
-
-  <div class="view-toggle" id="viewToggle">
-    <button class="view-btn active" data-view="timeline" type="button">Timeline</button>
-    <button class="view-btn" data-view="sections" type="button">Sections</button>
-  </div>
-
-  <div class="view-divider"></div>
-
-  <div class="filters" id="filters"></div>
-
-  <div class="view-divider"></div>
+  <nav class="controls" aria-label="Browse the journey">
+    <div class="view-tabs" id="viewToggle">
+      <button class="view-btn active" data-view="timeline" type="button" aria-pressed="true">Timeline</button>
+      <button class="view-btn" data-view="sections" type="button" aria-pressed="false">Sections</button>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+  </nav>
 
   <div class="feed" id="feed"></div>
 
@@ -557,6 +468,7 @@ const SECTIONS = [
   ]},
   { key:'education', label:'Education', color:'var(--cat-education)', items:[
     { kind:'rope', when:'Sep 2017 – Jun 2020', title:'M.Sc. Aerospace Engineering (Aerodynamics)', org:'University of Tehran',
+      read:'https://drive.google.com/file/d/1ZSdjc83JH1aX1eR56VqXtkgm0nl3PJqW/view?usp=sharing',
       bullets:['Thesis: Investigation of Aeroacoustics Characteristics of Small Drone Propellers',
         'GPA: 4.0 / 4.0 · Full Tuition Waiver · Top 1% Nationwide M.Sc. Entrance Exam'],
       skills:['Wind Tunnel & Acoustic Testing','Microphone Array Calibration','LabVIEW','3D Printing','SIMULIA XFlow','SolidWorks','Creativity','Collaborative research'] },
@@ -591,23 +503,28 @@ const SECTIONS = [
   { key:'publication', label:'Publications', color:'var(--cat-publication)', meta:'Citations: 40 · h-index: 3 · i10-index: 3', items:[
     { kind:'flag', when:'May 30, 2025', title:'Deep Reinforcement Learning for Active Flow Control in Bluff Bodies: A State-of-the-Art Review',
       org:'F. Moslem, M. Jebelli, M. Masdari*, R. Askari, A. Ebrahimi · Ocean Engineering',
+      read:'https://drive.google.com/file/d/18FR5brKtU2aAHu1z3pMwEHq1FRaG4yMf/view?usp=sharing',
       link:{ text:'DOI: 10.1016/j.oceaneng.2025.120989', url:'https://doi.org/10.1016/j.oceaneng.2025.120989' },
       cited:14,
       parent:'Research Assistant (Remote)' },
     { kind:'flag', when:'Apr 14, 2023', title:"A Review on Insects' Flight Aerodynamics, Noise Sources, and Flow Control Mechanisms",
       org:'F. Moslem*, Z. Babaie, M. Masdari, K. Fedir · Proc. IMechE, Part G',
+      read:'https://drive.google.com/file/d/1q1HgyNwtI2XvUDi8gI6LREI55b6Jl1r1/view?usp=sharing',
       link:{ text:'DOI: 10.1177/09544100231169345', url:'https://doi.org/10.1177/09544100231169345' },
       cited:11 },
     { kind:'flag', when:'Aug 28, 2022', title:'Numerical Investigation on VIV Energy Harvesting Enhancement with Adding Eccentricity to A Circular Cylinder',
       org:'Z. Babaie, F. Moslem, M. Masdari*, M. Tahani · Int. J. Thermofluid Science and Technology',
+      read:'https://drive.google.com/file/d/10tW_kjTxsoryg0xeKzkB8W0oTJ1bPy2V/view?usp=sharing',
       link:{ text:'DOI: 10.36963/IJTST.2022090502', url:'https://www.doi.org/10.36963/IJTST.2022090502' },
       cited:3 },
     { kind:'flag', when:'Aug 2, 2022', title:'Experimental Investigation into The Aerodynamic and Aeroacoustic Performance of Bioinspired Small-Scale Propeller Planforms',
       org:'F. Moslem, M. Masdari*, K. Fedir, B. Moslem · Proc. IMechE, Part G',
+      read:'https://drive.google.com/file/d/1wrXA8OCOI4kBZ_oSGFMySFQZ1ZyB-ffn/view?usp=sharing',
       link:{ text:'DOI: 10.1177/09544100221091322', url:'https://doi.org/10.1177/09544100221091322' },
       cited:12 },
     { kind:'flag', when:'Jan 6, 2022', title:'Experimental Study on Acoustic and Aerodynamic Improvement of The Hemiptera-Inspired Propeller Planform',
       org:'F. Moslem, M. Masdari*, K. Fedir, B. Moslem · Int. J. Thermofluid Science and Technology',
+      read:'https://drive.google.com/file/d/13nabw7gNxIf9L4JplWOeGVIgp-DPCPtQ/view?usp=sharing',
       link:{ text:'DOI: 10.36963/IJTST.2022090203', url:'https://www.doi.org/10.36963/IJTST.2022090203' } },
   ]},
   { key:'projects', label:'Selected Projects', color:'var(--cat-projects)', items:[
@@ -651,279 +568,121 @@ const SECTIONS = [
   ]},
 ];
 
-const MAIN_TITLES = new Set([
-  'Independent Researcher',
-  'Graduate Researcher',
-  'M.Sc. Aerospace Engineering (Aerodynamics)',
-  'B.Sc. Aerospace Engineering',
-  'Research Assistant (Remote)',
-  'Co-Founder',
-]);
-
-function flagSVG(){
-  return `<svg viewBox="0 0 24 24"><line x1="5" y1="3" x2="5" y2="21" stroke="var(--c)" stroke-width="2.4" stroke-linecap="round"/><path d="M5 4.5 L19 8.5 L5 13 Z" fill="var(--c)"/></svg>`;
-}
-function ropeSVG(){
-  return `<svg viewBox="0 0 24 24"><circle cx="4" cy="12" r="3" fill="var(--c)"/><circle cx="20" cy="12" r="3" fill="var(--c)"/><path d="M6 12 Q12 6 18 12" stroke="var(--c)" stroke-width="2.1" fill="none" stroke-linecap="round"/><path d="M6 12 Q12 18 18 12" stroke="var(--c)" stroke-width="2.1" fill="none" stroke-linecap="round" opacity=".5"/></svg>`;
-}
-function tagFor(label){
-  return '#' + label.replace(/&/g, '').replace(/\s+/g, '');
-}
-
 const MONTHS = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
 function parseDatePart(s){
   s = s.trim();
   if(/present/i.test(s)) return 9999;
   let m = s.match(/([A-Za-z]{3,})\s+(\d{1,2}),\s*(\d{4})/);
-  if(m){ const mo = MONTHS[m[1].slice(0,3).toLowerCase()] || 0; return parseInt(m[3]) + (mo + parseInt(m[2])/30)/12; }
+  if(m) return +m[3] + ((MONTHS[m[1].slice(0,3).toLowerCase()] || 0) + (+m[2]) / 32) / 12;
   m = s.match(/([A-Za-z]{3,})\s+(\d{4})/);
-  if(m){ const mo = MONTHS[m[1].slice(0,3).toLowerCase()] || 0; return parseInt(m[2]) + (mo + 0.5)/12; }
+  if(m) return +m[2] + ((MONTHS[m[1].slice(0,3).toLowerCase()] || 0) + 0.5) / 12;
   m = s.match(/(\d{4})/);
-  if(m){ return parseInt(m[1]) + 0.99; }
-  return 0;
+  return m ? +m[1] + 0.5 : 0; // year-only items sit mid-year
 }
-function sortKeyFor(when){
-  const parts = when.split('–');
-  return parseDatePart(parts[parts.length - 1]);
+
+const CHEVRON = '<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+const READ_ICON = '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 3.5C3.5 3 5.5 3 8 4.5c2.5-1.5 4.5-1.5 6-1v9c-1.5-.5-3.5-.5-6 1-2.5-1.5-4.5-1.5-6-1z M8 4.5v9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+function rowHtml(it){
+  const hasBody = !!(it.bullets || it.skills || it.link);
+  let body = '';
+  if(it.bullets) body += '<ul>' + it.bullets.map(b => `<li>${b}</li>`).join('') + '</ul>';
+  if(it.link || it.read) body += `<div class="row-link">${it.read ? `<a class="read-btn" href="${it.read}" target="_blank" rel="noopener">${READ_ICON}Read</a>` : ''}${it.link ? `<a href="${it.link.url}" target="_blank" rel="noopener">${it.link.text}</a>` : ''}${it.cited ? `<span class="cited">Cited: ${it.cited}</span>` : ''}</div>`;
+  if(it.skills) body += `<div class="row-skills-label">Related Skills</div><div class="tags">${it.skills.map(s => `<span class="tag">${s}</span>`).join('')}</div>`;
+  const live = /present/i.test(it.when) ? '<span class="row-live">Ongoing</span>' : '';
+  const head = `
+    <span class="row-when"><span class="row-date">${it.when}</span><span class="row-cat">${it.label}</span></span>
+    <span class="row-main"><span class="row-title">${it.title}${live}</span>${it.org ? `<span class="row-org">${it.org}</span>` : ''}</span>
+    ${hasBody ? `<span class="row-chev">${CHEVRON}</span>` : '<span></span>'}`;
+  return `<div class="row${hasBody ? ' open' : ''}" style="--c:${it.color}">` + (hasBody
+    ? `<button type="button" class="row-head" aria-expanded="true">${head}</button><div class="row-body"><div class="row-body-in"><div class="row-content">${body}</div></div></div>`
+    : `<div class="row-head">${head}</div>`) + '</div>';
 }
 
 function render(){
   const filtersEl = document.getElementById('filters');
   const feed = document.getElementById('feed');
   const viewToggleEl = document.getElementById('viewToggle');
-  let activeCat = 'all'; // single-select filter
-  let viewMode = 'timeline'; // 'timeline' | 'sections'
+  let activeCat = 'all';
+  let viewMode = 'timeline';
 
-  // flatten every item with its section color/cat + a chronological sort key
-  const flat = [];
-  const undatedFlat = [];
-  SECTIONS.forEach(sec => {
-    sec.items.forEach(item => {
-      const rec = { ...item, cat: sec.key, color: sec.color, label: sec.label, sortKey: sec.undated ? 0 : sortKeyFor(item.when) };
-      (sec.undated ? undatedFlat : flat).push(rec);
-    });
-  });
+  // One flat list. start/end drive a strict newest-first order.
+  const all = [];
+  SECTIONS.forEach(sec => sec.items.forEach(item => {
+    const parts = item.when.split('\u2013').map(s => s.trim());
+    const start = sec.undated ? 0 : parseDatePart(parts[0]);
+    const end = sec.undated ? 0 : (parts.length > 1 ? parseDatePart(parts[1]) : start);
+    all.push({ ...item, cat: sec.key, color: sec.color, label: sec.label, undated: !!sec.undated, start, end, idx: all.length });
+  }));
+  const newest = (a, b) => (b.start - a.start) || (b.end - a.end) || (a.idx - b.idx);
 
-  // split into the 6 main milestones vs. everything else
-  const mains = flat.filter(i => MAIN_TITLES.has(i.title));
-  const subsPool = flat.filter(i => !MAIN_TITLES.has(i.title));
+  function preserveScroll(fn){ const y = window.scrollY; fn(); window.scrollTo(0, y); }
 
-  // give each main its own [start, end] range (all mains are date-ranges)
-  mains.forEach(m => {
-    const parts = m.when.split('–').map(s => s.trim());
-    m.start = parseDatePart(parts[0]);
-    m.end = parts.length > 1 ? parseDatePart(parts[1]) : parseDatePart(parts[0]);
-  });
-  const mainsAsc = [...mains].sort((a,b) => a.start - b.start);
-
-  // assign every sub-item to the earliest main whose range covers its date
-  function assignMain(sortKey){
-    for(const m of mainsAsc){ if(sortKey <= m.end + 0.0005) return m; }
-    return mainsAsc[mainsAsc.length - 1];
+  function addChip(key, label, color, n){
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.dataset.cat = key; b.style.setProperty('--c', color);
+    b.innerHTML = `<span class="dot"></span>${label} <span class="n">${n}</span>`;
+    b.onclick = () => preserveScroll(() => { activeCat = key; renderCurrent(); sync(); });
+    filtersEl.appendChild(b);
   }
-  const groupMap = new Map();
-  mains.forEach(m => groupMap.set(m.title, []));
-  subsPool.forEach(sub => {
-    if(sub.parent && groupMap.has(sub.parent)){
-      groupMap.get(sub.parent).push(sub);
-    } else {
-      const m = assignMain(sub.sortKey);
-      groupMap.get(m.title).push(sub);
-    }
-  });
-  groupMap.forEach(list => list.sort((a,b) => b.sortKey - a.sortKey));
-
-  const mainsDesc = [...mains].sort((a,b) => sortKeyFor(b.when) - sortKeyFor(a.when));
-
-  function preserveScroll(fn){
-    const y = window.scrollY;
-    fn();
-    window.scrollTo(0, y);
-  }
-
   filtersEl.innerHTML = '';
-  const allChip = document.createElement('div');
-  allChip.className = 'chip';
-  allChip.style.setProperty('--c','var(--text-dim)');
-  allChip.innerHTML = '<span class="dot"></span> All';
-  allChip.onclick = () => preserveScroll(() => { activeCat = 'all'; renderCurrent(); syncChips(); });
-  filtersEl.appendChild(allChip);
-
-  SECTIONS.forEach(sec => {
-    const chip = document.createElement('div');
-    chip.className = 'chip';
-    chip.dataset.cat = sec.key;
-    chip.style.setProperty('--c', sec.color);
-    chip.innerHTML = `<span class="dot"></span> ${sec.label}`;
-    chip.onclick = () => preserveScroll(() => { activeCat = sec.key; renderCurrent(); syncChips(); });
-    filtersEl.appendChild(chip);
-  });
+  addChip('all', 'All', 'var(--text-dim)', all.length);
+  SECTIONS.forEach(sec => addChip(sec.key, sec.label, sec.color, sec.items.length));
 
   [...viewToggleEl.children].forEach(btn => {
-    btn.onclick = () => preserveScroll(() => {
-      viewMode = btn.dataset.view;
-      [...viewToggleEl.children].forEach(b => b.classList.toggle('active', b === btn));
-      renderCurrent();
-    });
+    btn.onclick = () => preserveScroll(() => { viewMode = btn.dataset.view; renderCurrent(); sync(); });
   });
 
-  function syncChips(){
-    [...filtersEl.children].forEach(ch => {
-      const isAll = ch === allChip;
-      ch.classList.toggle('active', isAll ? activeCat==='all' : ch.dataset.cat===activeCat);
-    });
-  }
-  syncChips();
-
-  function visible(cat){ return activeCat === 'all' || activeCat === cat; }
-
-  function renderSubRow(item){
-    const hasBody = !!(item.bullets || item.skills || item.link);
-    const row = document.createElement('div');
-    row.className = 'stop' + (hasBody ? ' open' : ' no-detail') + (visible(item.cat) ? '' : ' hidden');
-    row.dataset.cat = item.cat;
-    row.style.setProperty('--c', item.color);
-
-    let bodyHtml = '';
-    if(hasBody){
-      bodyHtml += '<div class="stop-body">';
-      if(item.bullets){ bodyHtml += '<ul>' + item.bullets.map(b => `<li>${b}</li>`).join('') + '</ul>'; }
-      if(item.link){ bodyHtml += `<div><a href="${item.link.url}" target="_blank" rel="noopener">${item.link.text}</a>${item.cited ? ` · Cited: ${item.cited}` : ''}</div>`; }
-      if(item.skills){ bodyHtml += `<div class="stop-skills"><div class="stop-skills-label">Related Skills</div>${item.skills.map(s=>`<span class="stop-tag">${s}</span>`).join('')}</div>`; }
-      bodyHtml += '</div>';
-    }
-
-    row.innerHTML = `
-      <div class="stop-card">
-        <div class="section-tag">${tagFor(item.label)}</div>
-        <div class="stop-top">
-          <span class="stop-when">${item.when}</span>
-          <span class="stop-title">${item.title}</span>
-          ${hasBody ? '<span class="stop-chevron">▶</span>' : ''}
-        </div>
-        <div class="stop-org">${item.org || ''}</div>
-        ${bodyHtml}
-      </div>`;
-    if(hasBody){ row.querySelector('.stop-card').onclick = (e) => { e.stopPropagation(); row.classList.toggle('open'); }; }
-    return row;
-  }
-
-  function renderGroups(){
-    feed.innerHTML = '';
-    mainsDesc.forEach(main => {
-      const subs = groupMap.get(main.title) || [];
-      const mainVisible = visible(main.cat);
-
-      const group = document.createElement('div');
-      group.className = 'group';
-
-      const chapter = document.createElement('div');
-      chapter.className = 'chapter' + (mainVisible ? '' : ' hidden');
-      chapter.dataset.cat = main.cat;
-      chapter.style.setProperty('--c', main.color);
-
-      const hasOwnBody = !!(main.bullets || main.skills);
-      let ownBody = '';
-      if(hasOwnBody){
-        ownBody += '<div class="chapter-own-body">';
-        if(main.bullets){ ownBody += '<ul>' + main.bullets.map(b => `<li>${b}</li>`).join('') + '</ul>'; }
-        if(main.skills){ ownBody += `<div class="chapter-skills"><div class="chapter-skills-label">Related Skills</div>${main.skills.map(s=>`<span class="chapter-tag">${s}</span>`).join('')}</div>`; }
-        ownBody += '</div>';
-      }
-
-      chapter.innerHTML = `
-        <div class="chapter-dot"></div>
-        <div class="chapter-card">
-          <div class="section-tag">${tagFor(main.label)}</div>
-          <div class="chapter-top">
-            <span class="chapter-when">${main.when}</span>
-            <span class="chapter-title">${main.title}</span>
-            ${hasOwnBody ? '<span class="chapter-chevron">▶</span>' : ''}
-          </div>
-          <div class="chapter-org">${main.org || ''}</div>
-          ${hasOwnBody ? `<div class="chapter-detail">${ownBody}</div>` : ''}
-        </div>`;
-
-      if(hasOwnBody){
-        chapter.classList.add('open');
-        chapter.querySelector('.chapter-card').onclick = () => chapter.classList.toggle('open');
-      } else {
-        chapter.querySelector('.chapter-card').style.cursor = 'default';
-      }
-
-      group.appendChild(chapter);
-
-      if(subs.length){
-        const subList = document.createElement('div');
-        subList.className = 'sub-list';
-        subs.forEach(sub => subList.appendChild(renderSubRow(sub)));
-        group.appendChild(subList);
-      }
-
-      feed.appendChild(group);
-    });
-
-    // undated sections (e.g. language skills) sit after the chronology
-    SECTIONS.filter(sec => sec.undated).forEach(sec => {
-      const items = undatedFlat.filter(i => i.cat === sec.key);
-      const group = document.createElement('div');
-      group.className = 'group' + (visible(sec.key) ? '' : ' hidden');
-      if(!visible(sec.key)) group.style.display = 'none';
-      group.style.setProperty('--c', sec.color);
-      const subList = document.createElement('div');
-      subList.className = 'sub-list';
-      subList.style.marginLeft = '0';
-      items.forEach(it => subList.appendChild(renderSubRow(it)));
-      group.appendChild(subList);
-      feed.appendChild(group);
+  function sync(){
+    [...filtersEl.children].forEach(ch => ch.setAttribute('aria-pressed', String(ch.dataset.cat === activeCat)));
+    [...viewToggleEl.children].forEach(b => {
+      const on = b.dataset.view === viewMode;
+      b.classList.toggle('active', on); b.setAttribute('aria-pressed', String(on));
     });
   }
 
-  function renderCvItemHtml(item){
-    let bodyHtml = '';
-    if(item.bullets){ bodyHtml += '<ul>' + item.bullets.map(b => `<li>${b}</li>`).join('') + '</ul>'; }
-    if(item.link){ bodyHtml += `<div><a href="${item.link.url}" target="_blank" rel="noopener">${item.link.text}</a>${item.cited ? ` · Cited: ${item.cited}` : ''}</div>`; }
-    if(item.skills){ bodyHtml += `<div class="stop-skills"><div class="stop-skills-label">Related Skills</div>${item.skills.map(s=>`<span class="stop-tag">${s}</span>`).join('')}</div>`; }
-    return `
-      <div class="cv-item">
-        <div class="cv-item-top">
-          <span class="cv-item-title">${item.title}</span>
-          <span class="cv-item-when">${item.when}</span>
-        </div>
-        <div class="cv-item-org">${item.org || ''}</div>
-        ${bodyHtml ? `<div class="cv-item-body">${bodyHtml}</div>` : ''}
-      </div>`;
+  const shown = () => all.filter(i => activeCat === 'all' || i.cat === activeCat);
+  const group = (label, list) => `<section class="year-group">${label}<div class="panel">${list.map(rowHtml).join('')}</div></section>`;
+
+  function renderTimeline(){
+    const items = shown();
+    const byYear = new Map();
+    items.filter(i => !i.undated).sort(newest).forEach(i => {
+      const y = Math.floor(i.start);
+      if(!byYear.has(y)) byYear.set(y, []);
+      byYear.get(y).push(i);
+    });
+    let html = '';
+    byYear.forEach((list, y) => { html += group(`<h2 class="year-label">${y}</h2>`, list); });
+    const undated = items.filter(i => i.undated);
+    if(undated.length) html += group(`<h2 class="year-label is-text">${undated[0].label}</h2>`, undated);
+    feed.innerHTML = html;
   }
 
   function renderSections(){
-    feed.innerHTML = '';
-    SECTIONS.forEach(sec => {
-      const secVisible = visible(sec.key);
-      const wrap = document.createElement('div');
-      wrap.className = 'cv-section' + (secVisible ? '' : ' hidden');
-      wrap.style.setProperty('--c', sec.color);
-
-      const items = sec.undated ? [...sec.items] : [...sec.items].sort((a,b) => sortKeyFor(b.when) - sortKeyFor(a.when));
-
-      wrap.innerHTML = `
-        <div class="cv-section-head">
-          <span class="cv-section-dot"></span>
-          <span class="cv-section-title">${sec.label}</span>
-          ${sec.meta ? `<span class="cv-section-meta">${sec.meta}</span>` : ''}
-        </div>
-        <div class="cv-section-body">
-          ${items.map(renderCvItemHtml).join('')}
-        </div>`;
-      feed.appendChild(wrap);
-    });
+    feed.innerHTML = SECTIONS.filter(s => activeCat === 'all' || activeCat === s.key).map(sec => {
+      const list = all.filter(i => i.cat === sec.key);
+      if(!sec.undated) list.sort(newest);
+      return `<section style="--c:${sec.color}">
+        <div class="section-head"><span class="section-dot"></span><h2 class="section-title">${sec.label}</h2>${sec.meta ? `<span class="section-meta">${sec.meta}</span>` : ''}</div>
+        <div class="panel">${list.map(rowHtml).join('')}</div></section>`;
+    }).join('');
   }
 
   function renderCurrent(){
-    if(viewMode === 'sections') renderSections();
-    else renderGroups();
+    feed.className = 'feed' + (viewMode === 'sections' ? ' by-section' : '');
+    if(viewMode === 'sections') renderSections(); else renderTimeline();
   }
 
+  feed.addEventListener('click', e => {
+    const head = e.target.closest('button.row-head');
+    if(!head) return;
+    const open = head.parentElement.classList.toggle('open');
+    head.setAttribute('aria-expanded', String(open));
+  });
+
   renderCurrent();
+  sync();
 }
 
 
