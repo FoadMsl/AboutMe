@@ -225,7 +225,21 @@ header.card{
 
 /* ===== 4. CONTROLS ===== */
 .controls{ display:flex; flex-direction:column; gap:14px; margin:6px 0 30px; }
-.view-tabs{ display:flex; gap:24px; border-bottom:1px solid var(--line); }
+.controls-row{ display:flex; align-items:flex-end; justify-content:space-between; gap:12px; border-bottom:1px solid var(--line); }
+.view-tabs{ display:flex; gap:24px; }
+.sort{ display:flex; align-items:center; gap:8px; padding-bottom:7px; flex-shrink:0; }
+.sort-label{ font:600 11px var(--sans); letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); }
+.sort-seg{
+  display:inline-flex; padding:2px; border-radius:var(--radius-pill);
+  background:color-mix(in srgb, var(--text) 6%, transparent);
+}
+.sort-btn{
+  font:600 12px var(--sans); padding:4px 12px; border:0; border-radius:var(--radius-pill);
+  background:transparent; color:var(--text-faint); cursor:pointer; white-space:nowrap;
+  transition:background-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.sort-btn:hover{ color:var(--text-dim); }
+.sort-btn[aria-pressed="true"]{ background:var(--panel-solid); color:var(--text); box-shadow:var(--shadow-sm); }
 .view-btn{
   font:600 14px var(--sans); padding:8px 0 10px; margin-bottom:-1px; background:none; border:0;
   border-bottom:2px solid transparent; color:var(--text-faint); cursor:pointer;
@@ -325,6 +339,9 @@ button.row-head:hover{ background:color-mix(in srgb, var(--text) 4%, transparent
   .row-content{ margin-left:var(--pad); }
   .filters{ flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin:0 -18px; padding:2px 18px 6px; }
   .chip{ flex-shrink:0; }
+  .view-tabs{ gap:18px; }
+  .sort-by, .sort-date{ display:none; }
+  .sort-btn{ padding:4px 10px; }
 }
 @media (prefers-reduced-motion:reduce){
   *{ transition-duration:.001ms !important; animation-duration:.001ms !important; }
@@ -437,9 +454,18 @@ button.row-head:hover{ background:color-mix(in srgb, var(--text) 4%, transparent
   </header>
 
   <nav class="controls" aria-label="Browse the journey">
-    <div class="view-tabs" id="viewToggle">
-      <button class="view-btn active" data-view="timeline" type="button" aria-pressed="true">Timeline</button>
-      <button class="view-btn" data-view="sections" type="button" aria-pressed="false">Sections</button>
+    <div class="controls-row">
+      <div class="view-tabs" id="viewToggle">
+        <button class="view-btn active" data-view="timeline" type="button" aria-pressed="true">Timeline</button>
+        <button class="view-btn" data-view="sections" type="button" aria-pressed="false">Sections</button>
+      </div>
+      <div class="sort" role="group" aria-label="Sort by date">
+        <span class="sort-label" aria-hidden="true">Sort<span class="sort-by"> by</span></span>
+        <div class="sort-seg" id="sortToggle">
+          <button class="sort-btn" data-sort="finish" type="button" aria-pressed="true">Finish<span class="sort-date"> date</span></button>
+          <button class="sort-btn" data-sort="start" type="button" aria-pressed="false">Start<span class="sort-date"> date</span></button>
+        </div>
+      </div>
     </div>
     <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
   </nav>
@@ -603,8 +629,10 @@ function render(){
   const filtersEl = document.getElementById('filters');
   const feed = document.getElementById('feed');
   const viewToggleEl = document.getElementById('viewToggle');
+  const sortToggleEl = document.getElementById('sortToggle');
   let activeCat = 'all';
   let viewMode = 'timeline';
+  let sortMode = 'finish'; // 'finish' (default) | 'start'
 
   // One flat list. start/end drive a strict newest-first order.
   const all = [];
@@ -614,7 +642,10 @@ function render(){
     const end = sec.undated ? 0 : (parts.length > 1 ? parseDatePart(parts[1]) : start);
     all.push({ ...item, cat: sec.key, color: sec.color, label: sec.label, undated: !!sec.undated, start, end, idx: all.length });
   }));
-  const newest = (a, b) => (b.start - a.start) || (b.end - a.end) || (a.idx - b.idx);
+  // Newest first by the chosen date; the other date breaks ties, then original order.
+  const newest = (a, b) => sortMode === 'finish'
+    ? (b.end - a.end) || (b.start - a.start) || (a.idx - b.idx)
+    : (b.start - a.start) || (b.end - a.end) || (a.idx - b.idx);
 
   function preserveScroll(fn){ const y = window.scrollY; fn(); window.scrollTo(0, y); }
 
@@ -632,6 +663,9 @@ function render(){
   [...viewToggleEl.children].forEach(btn => {
     btn.onclick = () => preserveScroll(() => { viewMode = btn.dataset.view; renderCurrent(); sync(); });
   });
+  [...sortToggleEl.children].forEach(btn => {
+    btn.onclick = () => preserveScroll(() => { sortMode = btn.dataset.sort; renderCurrent(); sync(); });
+  });
 
   function sync(){
     [...filtersEl.children].forEach(ch => ch.setAttribute('aria-pressed', String(ch.dataset.cat === activeCat)));
@@ -639,6 +673,7 @@ function render(){
       const on = b.dataset.view === viewMode;
       b.classList.toggle('active', on); b.setAttribute('aria-pressed', String(on));
     });
+    [...sortToggleEl.children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sort === sortMode)));
   }
 
   const shown = () => all.filter(i => activeCat === 'all' || i.cat === activeCat);
@@ -648,12 +683,16 @@ function render(){
     const items = shown();
     const byYear = new Map();
     items.filter(i => !i.undated).sort(newest).forEach(i => {
-      const y = Math.floor(i.start);
+      // Group by the year of the active sort date; ongoing items (finish = Present) lead the list.
+      const k = sortMode === 'finish' ? i.end : i.start;
+      const y = k >= 9999 ? 'Present' : Math.floor(k);
       if(!byYear.has(y)) byYear.set(y, []);
       byYear.get(y).push(i);
     });
     let html = '';
-    byYear.forEach((list, y) => { html += group(`<h2 class="year-label">${y}</h2>`, list); });
+    byYear.forEach((list, y) => {
+      html += group(y === 'Present' ? '<h2 class="year-label is-text">Present</h2>' : `<h2 class="year-label">${y}</h2>`, list);
+    });
     const undated = items.filter(i => i.undated);
     if(undated.length) html += group(`<h2 class="year-label is-text">${undated[0].label}</h2>`, undated);
     feed.innerHTML = html;
